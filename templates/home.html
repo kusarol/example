@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+    <meta charset="utf-8" />
+    <title>Example</title>
+    <h3>Форма для загрузки файлов</h3>
+    </head>
+    <body>
+    <form  method='post' action='/upload' enctype=multipart/form-data >
+      <input type=file name=file>
+      <input type=submit value=Загрузить>
+    </form>
+    <h3>Add files</h3>
+    {% for file in files %}
+    <div><a href="#" download="{{ file }}">{{ file }}</a></div>
+    {% endfor %}
+    <h3>Table</h3>
+    <table>
+    {% for table in tables %}
+    {{ table }}
+    {% endfor %}
+  </table>
+    </body>
+  </html>
