@@ -1,4 +1,5 @@
-from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory
+from flask import Flask, request, redirect, url_for, \
+                render_template, send_from_directory
 from werkzeug.utils import secure_filename
 
 import os
@@ -15,13 +16,16 @@ name_file = []
 files = []
 tables = []
 
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
+
 @app.route('/', methods=['GET', "POST"])
 def index():
     return render_template('home.html', files=files, tables=tables, filename=name_file)
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -34,12 +38,15 @@ def upload_file():
             files.append(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             get_table(filename)
             return redirect(url_for('index'))
-    return redirect(url_for('index')) % "<br>".join(os.listdir(app.config['UPLOAD_FOLDER'],))
+    return redirect(url_for('index')) % \
+           "<br>".join(os.listdir(app.config['UPLOAD_FOLDER'],))
+
 
 @app.route('/table', methods=['POST'])
 def get_table(filename):
     if request.method == 'POST':
-        workbook = xlrd.open_workbook(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        workbook = xlrd.open_workbook(
+            os.path.join(app.config['UPLOAD_FOLDER'], filename))
         worksheet = workbook.sheet_by_index(0)
         table = []
         for row in range(worksheet.nrows):
@@ -47,14 +54,15 @@ def get_table(filename):
                 table.append(worksheet.cell_value(row, col))
         t = ceil(len(table)/8)
         tables.append([table[t*k:t*(k+1)] for k in range(8)])
-        print(tables)
         return redirect(url_for('index'))
-    return redirect(url_for('index')) 
+    return redirect(url_for('index'))
+
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
 
+
 if __name__ == "__main__":
-    app.run(port=2019,debug=True)
+    app.run(port=2019, debug=True)
