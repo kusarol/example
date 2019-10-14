@@ -24,7 +24,8 @@ def allowed_file(filename):
 
 @app.route('/', methods=['GET', "POST"])
 def index():
-    return render_template('home.html', files=files, tables=tables, filename=name_file)
+    return (render_template
+            ('home.html', files=files, tables=tables, filename=name_file))
 
 
 @app.route('/upload', methods=['POST'])
@@ -38,8 +39,8 @@ def upload_file():
             files.append(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             get_table(filename)
             return redirect(url_for('index'))
-    return redirect(url_for('index')) % \
-           "<br>".join(os.listdir(app.config['UPLOAD_FOLDER'],))
+    return redirect(url_for('index')) % "<br>".join(os.listdir(
+        app.config['UPLOAD_FOLDER'],))
 
 
 @app.route('/table', methods=['POST'])
