@@ -3,8 +3,8 @@ from flask import Flask, request, \
 from werkzeug.utils import secure_filename
 
 import os
-from constants import UPLOAD_FOLDER, ALLOWED_EXTENSIONS, FILENAMES
-from convert_to_table import table, get_table
+from constants import UPLOAD_FOLDER, ALLOWED_EXTENSIONS
+from convert_to_table import table, get_table, get_names
 
 
 app = Flask(__name__)
@@ -30,11 +30,11 @@ def upload_file():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             rows = table(os.path.join(app.config['UPLOAD_FOLDER'],
                          filename), filename)
-            FILENAMES.append(file.filename)
+            files = get_names()
             table_find = get_table(filename.replace('.xls', ''))
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return render_template('home.html', tables=rows,
-                           files=FILENAMES, get_table=table_find)
+                           files=files, get_table=table_find)
 
 
 @app.route('/uploads/<filename>')
