@@ -29,10 +29,10 @@ def table(path, filename):
 
 
 def get_table(filename):
-    os.chdir("C:\\Users\\Anastasiia.Varinova\\Documents\\GitHub\\example")
+    os.chdir('C:\\Users\\Anastasiia.Varinova\\Documents\\GitHub\\example')
     con = sqlite3.connect('tables.db')
     with con:
         cur = con.cursor()
-        cur.execute("SELECT * FROM " + filename)
+        cur.execute('SELECT * FROM ' + filename)
         rows = cur.fetchall()
     return rows
