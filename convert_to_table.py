@@ -3,6 +3,8 @@ import csv
 import pandas
 import sqlite3
 import os
+from hashlib import md5
+from time import localtime
 
 
 con = sqlite3.connect('tables.db')
