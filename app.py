@@ -1,10 +1,10 @@
-from flask import Flask, request, \
-                render_template, send_from_directory
-from werkzeug.utils import secure_filename
-
 import os
 from constants import UPLOAD_FOLDER, ALLOWED_EXTENSIONS
 from convert_to_table import table, get_table, get_names
+
+from flask import Flask, request, \
+                render_template, send_from_directory
+from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)

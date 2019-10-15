@@ -6,23 +6,21 @@
     <h3>Форма для загрузки файлов</h3>
     </head>
     <body>
-    <form  method='post' action='/upload' enctype=multipart/form-data >
-      <input type=file name=file>
-      <input type=submit value=Загрузить>
-    </form>
-    <h3>Add files</h3>
-    {% for file in files %}
-    <button name={{file}} >{{file}}</button> 
-    {% endfor %}
-    <h3>Table</h3>
-    <table>
-    {% for table in tables %}
-    <table border='1'>
-    <tr>
-      <td>{{table}}</td>
-    </tr>
-  </table>
-    {% endfor %}
-  </table>
+      <form  method='post' action='/upload' enctype=multipart/form-data >
+        <input type=file name=file>
+        <input type=submit value=Загрузить>
+      </form>
+      <h3>Add files</h3>
+      {% for file in files %}
+        <button name={{file}} >{{file}}</button> 
+      {% endfor %}
+      <h3>Table</h3>
+      {% for table in tables %}
+      <table border='1'>
+        <tr>
+          <td>{{table}}</td>
+        </tr>
+      </table>
+      {% endfor %}
     </body>
   </html>
