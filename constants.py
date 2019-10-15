@@ -1,6 +1,6 @@
 """ FOR TABLES"""
 
-UPLOAD_FOLDER = 'C:\\Users\\Anastasiia.Varinova\\Documents\\GitHub\\example\\uploads'
-ALLOWED_EXTENSIONS = set(['xls', 'xlsx'])
+UPLOAD_FOLDER = '..\\example'
+ALLOWED_EXTENSIONS = ['xls', 'xlsx']
 
 FILENAMES = []
