@@ -1,5 +1,6 @@
 # Description
 This program is designed to view Excel files.
+uploads folder is needed to store temporary files.
 
 # Needs
 To install the application, you must install requirements.txt (pip install -r requirements.txt) 
