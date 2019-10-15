@@ -1,20 +1,14 @@
-from flask import Flask, request, redirect, url_for, \
+from flask import Flask, request, \
                 render_template, send_from_directory
 from werkzeug.utils import secure_filename
 
 import os
-import xlrd
-from math import ceil
+from constants import UPLOAD_FOLDER, ALLOWED_EXTENSIONS, FILENAMES
+from convert_to_table import table, get_table
 
-UPLOAD_FOLDER = 'example'
-ALLOWED_EXTENSIONS = set(['xls', 'xlsx'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-name_file = []
-files = []
-tables = []
 
 
 def allowed_file(filename):
@@ -24,8 +18,7 @@ def allowed_file(filename):
 
 @app.route('/', methods=['GET', "POST"])
 def index():
-    return (render_template
-            ('home.html', files=files, tables=tables, filename=name_file))
+    return render_template('home.html')
 
 
 @app.route('/upload', methods=['POST'])
@@ -34,29 +27,14 @@ def upload_file():
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            name_file.append(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            files.append(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            get_table(filename)
-            return redirect(url_for('index'))
-    return redirect(url_for('index')) % "<br>".join(os.listdir(
-        app.config['UPLOAD_FOLDER'],))
-
-
-@app.route('/table', methods=['POST'])
-def get_table(filename):
-    if request.method == 'POST':
-        workbook = xlrd.open_workbook(
-            os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        worksheet = workbook.sheet_by_index(0)
-        table = []
-        for row in range(worksheet.nrows):
-            for col in range(worksheet.ncols):
-                table.append(worksheet.cell_value(row, col))
-        t = ceil(len(table)/8)
-        tables.append([table[t*k:t*(k+1)] for k in range(8)])
-        return redirect(url_for('index'))
-    return redirect(url_for('index'))
+            rows = table(os.path.join(app.config['UPLOAD_FOLDER'],
+                         filename), filename)
+            FILENAMES.append(file.filename)
+            table_find = get_table(filename.replace('.xls', ''))
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return render_template('home.html', tables=rows,
+                           files=FILENAMES, get_table=table_find)
 
 
 @app.route('/uploads/<filename>')
