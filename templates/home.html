@@ -9,15 +9,24 @@
     <form  method='post' action='/upload' enctype=multipart/form-data >
       <input type=file name=file>
       <input type=submit value=Загрузить>
+      {{filename}}
     </form>
     <h3>Add files</h3>
+
     {% for file in files %}
-    <div><a href="#" download="{{ file }}">{{ file }}</a></div>
+    <div><input type=submit value={{file}}></div>
     {% endfor %}
     <h3>Table</h3>
     <table>
     {% for table in tables %}
-    {{ table }}
+    <table border='2'>
+    <tr>
+      <td>{{table[0]}}</td>
+      <td>{{table[1]}}</td>
+      <td>{{table[2]}}</td>
+      <td>{{table[3]}}</td>
+    </tr>
+  </table>
     {% endfor %}
   </table>
     </body>
