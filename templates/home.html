@@ -12,9 +12,7 @@
     </form>
     <h3>Add files</h3>
     {% for file in files %}
-    <div>
-    <button>{{file[0]}}</button> 
-    </div>
+    <button onclick='get_upload_table(file[0])'>{{file[0]}}</button>
     {% endfor %}
     <h3>Table</h3>
     <table>

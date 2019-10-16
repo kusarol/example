@@ -1,6 +1,6 @@
 import os
 from constants import UPLOAD_FOLDER, ALLOWED_EXTENSIONS
-from convert_to_table import table, get_table, get_names
+from tables import table, get_table, get_names
 
 from flask import Flask, request, \
                 render_template, send_from_directory
@@ -41,6 +41,12 @@ def upload_file():
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
+
+
+@app.route('/my-link/')
+def get_upload_table(filename):
+    table_find = get_table(filename.replace('.xls', ''))
+    return render_template('home.html', get_table=table_find)
 
 
 if __name__ == "__main__":
